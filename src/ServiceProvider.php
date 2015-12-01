@@ -3,6 +3,7 @@ namespace Barryvdh\DomPDF;
 
 use Exception;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
+use Dompdf\Dompdf;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
@@ -26,8 +27,8 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->mergeConfigFrom($configPath, 'dompdf');
 
         $this->app->bind('dompdf', function ($app) {
-            $dompdf = new \DOMPDF();
-            $dompdf->set_base_path(realpath(base_path('public')));
+            $dompdf = new Dompdf();
+            $dompdf->setBasePath(realpath(base_path('public')));
 
             return $dompdf;
         });
@@ -66,18 +67,6 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->define("DOMPDF_ENABLE_AUTOLOAD", false);
         $this->define("DOMPDF_CHROOT", realpath(base_path()));
         $this->define("DOMPDF_LOG_OUTPUT_FILE", storage_path('logs/dompdf.html'));
-
-        $config_file = $this->app['config']->get(
-            'dompdf.config_file'
-        ) ?: base_path('vendor/dompdf/dompdf/dompdf_config.inc.php');
-
-        if (file_exists($config_file)) {
-            require_once $config_file;
-        } else {
-            throw new Exception(
-                "$config_file cannot be loaded, please configure correct config file (dompdf.config_file)"
-            );
-        }
     }
 
     /**
