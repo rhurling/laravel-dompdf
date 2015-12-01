@@ -1,7 +1,7 @@
 <?php
 namespace Barryvdh\DomPDF;
 
-use DOMPDF;
+use Dompdf\Dompdf;
 use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\View\Factory as ViewFactory;
@@ -16,7 +16,7 @@ use Illuminate\Http\Response;
  */
 class PDF{
 
-    /** @var \DOMPDF  */
+    /** @var Dompdf  */
     protected $dompdf;
 
     /** @var \Illuminate\Contracts\Config\Repository  */
@@ -35,12 +35,12 @@ class PDF{
     protected $public_path;
 
     /**
-     * @param \DOMPDF $dompdf
+     * @param Dompdf $dompdf
      * @param \Illuminate\Contracts\Config\Repository $config
      * @param \Illuminate\Filesystem\Filesystem $files
      * @param \Illuminate\View\Factory $view
      */
-    public function __construct(DOMPDF $dompdf, ConfigRepository $config, Filesystem $files, ViewFactory $view){
+    public function __construct(Dompdf $dompdf, ConfigRepository $config, Filesystem $files, ViewFactory $view){
         $this->dompdf = $dompdf;
         $this->config = $config;
         $this->files = $files;
@@ -61,7 +61,7 @@ class PDF{
     /**
      * Get the DomPDF instance
      *
-     * @return \DOMPDF
+     * @return Dompdf
      */
     public function getDomPDF(){
         return $this->dompdf;
